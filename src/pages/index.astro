@@ -1,17 +1,27 @@
 ---
+import { getEntry, getCollection, render } from "astro:content";
+console.log(await getCollection("pages"));
 
+const page = await getEntry("pages", "startseite");
+
+if (!page) {
+  throw new Error("Startseite nicht gefunden");
+}
+
+const { Content } = await render(page);
 ---
 
-<html lang="en">
+<html lang="de">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Gu-Co</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={page.data.description} />
+    <title>{page.data.title}</title>
   </head>
   <body>
-    <h1>Sandra</h1>
+    <main>
+      <h1>{page.data.title}</h1>
+      <Content />
+    </main>
   </body>
 </html>
